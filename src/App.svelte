@@ -49,9 +49,20 @@
     gameActive = !gameActive;
     if (gameActive) {
       let current = 30;
+      let up = true;
       setInterval(() => {
         console.log("this moves");
-        current += 5;
+        if (up) {
+          current += 5;
+        } else {
+          current -= 5;
+        }
+
+        if (current > 335) {
+          up = false;
+        } else if (current < 35) {
+          up = true;
+        }
 
         const el2 = document.getElementsByClassName("ball")[0];
         el2.style.bottom = current + "px";
