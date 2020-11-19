@@ -27,6 +27,10 @@
     sticky: false,
   };
 
+  let brick = {
+    hit: false,
+  };
+
   const movePaddle = (e) => {
     if (e.layerX > 50 && e.layerX < 650) {
       paddle.posX = e.layerX - 50;
@@ -36,13 +40,23 @@
 
     if (!gameActive) {
       const el2 = document.getElementsByClassName("ball")[0];
-      el2.style.left = paddle.posX + "px";
+      el2.style.left = paddle.posX + 40 + "px";
       el2.style.bottom = "30px";
     }
   };
 
   const initGame = () => {
     gameActive = !gameActive;
+    if (gameActive) {
+      let current = 30;
+      setInterval(() => {
+        console.log("this moves");
+        current += 5;
+
+        const el2 = document.getElementsByClassName("ball")[0];
+        el2.style.bottom = current + "px";
+      }, 15);
+    }
     console.log("game initiated");
   };
 </script>
