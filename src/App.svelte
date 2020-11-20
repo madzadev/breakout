@@ -37,29 +37,24 @@
   };
 
   const initGame = () => {
+    console.log("game initiated");
     game.active = !game.active;
     if (game.active) {
-      let current = 30;
-      let up = true;
+      let up = 5;
+      let right = 1;
       setInterval(() => {
-        console.log("this moves");
-        if (up) {
-          current += 5;
-        } else {
-          current -= 5;
+        if (ball.posY > 350 || ball.posY < 30) {
+          up = -up;
         }
-
-        if (current > 335) {
-          up = false;
-        } else if (current < 35) {
-          up = true;
+        if (ball.posX > 680 || ball.posX < 0) {
+          right = -right;
         }
-
-        const el2 = document.getElementsByClassName("ball")[0];
-        el2.style.bottom = current + "px";
-      }, 15);
+        ball.posY += up;
+        ball.posX += right;
+      }, 20);
+    } else {
+      console.log("game stopped");
     }
-    console.log("game initiated");
   };
 </script>
 
@@ -80,7 +75,9 @@
   .info-panel {
     display: flex;
     text-align: right;
-    background-color: aliceblue;
+    height: 30px;
+    background-color: rgb(44, 44, 44);
+    color: white;
     padding: 10px;
   }
 
