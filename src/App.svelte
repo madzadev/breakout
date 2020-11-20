@@ -36,6 +36,12 @@
     }
   };
 
+  const gameOver = (bX, bY, pX) => {
+    if (bY < 30 && (bX < pX || bX > pX + 100)) {
+      console.log("Game over");
+    }
+  };
+
   const initGame = () => {
     console.log("game initiated");
     game.active = !game.active;
@@ -43,7 +49,7 @@
       let up = 5;
       let right = 1;
       setInterval(() => {
-        if (ball.posY > 350 || ball.posY < 30) {
+        if (ball.posY > 350 || ball.posY < 0) {
           up = -up;
         }
         if (ball.posX > 680 || ball.posX < 0) {
@@ -51,6 +57,8 @@
         }
         ball.posY += up;
         ball.posX += right;
+
+        gameOver(ball.posX, ball.posY, paddle.posX);
       }, 20);
     } else {
       console.log("game stopped");
