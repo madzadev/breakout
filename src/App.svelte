@@ -1,20 +1,22 @@
 <script>
-  let gameStats = {
+  let game = {
     level: 0,
     lives: 3,
     score: 0,
+    active: false,
   };
 
-  let blocks = {
+  let bricks = {
     green: 1,
     blue: 2,
     red: 3,
     grey: 4,
+    hit: false,
   };
 
-  let gameActive = false;
-
   let ball = {
+    w: 0,
+    h: 0,
     posX: 0,
     posY: 0,
     speed: 0,
@@ -22,14 +24,13 @@
   };
 
   let paddle = {
+    w: 0,
+    h: 0,
     posX: 0,
-    width: 0,
     sticky: false,
   };
 
-  let brick = {
-    hit: false,
-  };
+  console.log(document.getElementById("ball"));
 
   const movePaddle = (e) => {
     if (e.layerX > 50 && e.layerX < 650) {
@@ -38,7 +39,7 @@
     const el = document.getElementsByClassName("paddle")[0];
     el.style.left = paddle.posX + "px";
 
-    if (!gameActive) {
+    if (!game.active) {
       const el2 = document.getElementsByClassName("ball")[0];
       el2.style.left = paddle.posX + 40 + "px";
       el2.style.bottom = "30px";
@@ -46,8 +47,8 @@
   };
 
   const initGame = () => {
-    gameActive = !gameActive;
-    if (gameActive) {
+    game.active = !game.active;
+    if (game.active) {
       let current = 30;
       let up = true;
       setInterval(() => {
@@ -93,7 +94,7 @@
     padding: 10px;
   }
 
-  .ball {
+  #ball {
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -113,10 +114,10 @@
 <h1>Breakout game</h1>
 <main on:mousemove={movePaddle} on:click={initGame}>
   <div class="info-panel">
-    <p>Level: {gameStats.level}</p>
-    <p>Lives: {gameStats.lives}</p>
-    <p>Score: {gameStats.score}</p>
+    <p>Level: {game.level}</p>
+    <p>Lives: {game.lives}</p>
+    <p>Score: {game.score}</p>
   </div>
-  <div class="ball" />
+  <div id="ball" />
   <div class="paddle" style="left:{paddle.posX}px" />
 </main>
