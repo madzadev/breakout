@@ -79,7 +79,7 @@
       let right = 1;
       const init = setInterval(() => {
         if (
-          ball.posY > 330 ||
+          ball.posY > 530 ||
           ball.posY < -50 ||
           (ball.posY < 30 &&
             ball.posX > paddle.posX &&
@@ -109,7 +109,7 @@
 
   main {
     width: 700px;
-    height: 400px;
+    height: 600px;
     border: 1px solid rgb(114, 114, 114);
     margin: 0 auto;
     position: relative;
@@ -130,6 +130,8 @@
     align-items: center;
   }
   #brick-panel {
+    /* margin-top: 10px; */
+    padding: 10px;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     /* grid-template-rows: repeat(3, 20px); */
@@ -139,7 +141,7 @@
     /* width: 100px; */
     height: 20px;
     background-color: rgb(0, 104, 17);
-    margin: 10px;
+    /* margin: 10px; */
   }
 
   #ball {
@@ -167,9 +169,9 @@
     <p>Score: {game.score}</p>
   </div>
   <div id="brick-panel">
-    <div class="brick" />
-    <div class="brick" />
-    <div class="brick" />
+    {#each Array(18) as _, i}
+      <div class="brick" />
+    {/each}
   </div>
 
   <div id="ball" style="left:{ball.posX}px; bottom:{ball.posY}px" />
