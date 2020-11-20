@@ -42,21 +42,28 @@
     ball.posX = 340;
     ball.posY = 30;
     paddle.posX = 300;
-    initGame();
   };
 
   const gameOver = (bX, bY, pX, interval) => {
-    if (bY < 30 && (bX < pX || bX > pX + 100)) {
+    if (bY < -20 && (bX < pX || bX > pX + 100)) {
       if (game.lives > 0) {
         --game.lives;
         game.message = "You lost 1 life ";
         game.active = !game.active;
         clearInterval(interval);
+
         setTimeout(() => {
-          reset();
+          game.message = "Click to reset";
+          ball.posY = 30;
+          ball.posX = paddle.posX + 40;
         }, 1000);
       } else {
         game.message = "You lost the game!";
+        game.active = !game.active;
+        clearInterval(interval);
+        setTimeout(() => {
+          reset();
+        }, 1000);
       }
     }
   };
@@ -64,13 +71,14 @@
   const initGame = () => {
     console.log("game initiated");
     game.active = !game.active;
+    game.message = "";
     if (game.active) {
-      let up = 5;
+      let up = 8;
       let right = 1;
       const init = setInterval(() => {
         if (
           ball.posY > 330 ||
-          ball.posY < 0 ||
+          ball.posY < -50 ||
           (ball.posY < 30 &&
             ball.posX > paddle.posX &&
             ball.posX < paddle.posX + 100)
@@ -103,6 +111,7 @@
     border: 1px solid rgb(114, 114, 114);
     margin: 0 auto;
     position: relative;
+    overflow: hidden;
   }
 
   .info-panel {
@@ -112,6 +121,11 @@
     background-color: rgb(44, 44, 44);
     color: white;
     padding: 10px;
+    /* flex-wrap: wrap; */
+    gap: 32px;
+    justify-content: flex-end;
+    vertical-align: middle;
+    align-items: center;
   }
 
   #ball {
@@ -142,5 +156,5 @@
   <div id="paddle" style="left:{paddle.posX}px" />
 </main>
 
-<button on:click={reset}>Reset</button>
+<!-- <button on:click={reset}>Reset</button> -->
 <h1>{!game.message ? '' : game.message}</h1>
