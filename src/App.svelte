@@ -50,10 +50,12 @@
         --game.lives;
         game.message = "You lost 1 life ";
         game.active = !game.active;
+
         clearInterval(interval);
 
         setTimeout(() => {
           game.message = "Click to reset";
+
           ball.posY = 30;
           ball.posX = paddle.posX + 40;
         }, 1000);
@@ -127,6 +129,18 @@
     vertical-align: middle;
     align-items: center;
   }
+  #brick-panel {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    /* grid-template-rows: repeat(3, 20px); */
+    gap: 10px;
+  }
+  .brick {
+    /* width: 100px; */
+    height: 20px;
+    background-color: rgb(0, 104, 17);
+    margin: 10px;
+  }
 
   #ball {
     width: 20px;
@@ -138,10 +152,10 @@
 
   #paddle {
     width: 100px;
-    height: 30px;
+    height: 20px;
     background-color: rgb(0, 150, 236);
     position: absolute;
-    bottom: 0;
+    bottom: 10px;
   }
 </style>
 
@@ -152,6 +166,12 @@
     <p>Lives: {game.lives}</p>
     <p>Score: {game.score}</p>
   </div>
+  <div id="brick-panel">
+    <div class="brick" />
+    <div class="brick" />
+    <div class="brick" />
+  </div>
+
   <div id="ball" style="left:{ball.posX}px; bottom:{ball.posY}px" />
   <div id="paddle" style="left:{paddle.posX}px" />
 </main>
