@@ -15,34 +15,24 @@
   };
 
   let ball = {
-    w: 0,
-    h: 0,
-    posX: 0,
-    posY: 0,
+    posX: 340,
+    posY: 30,
     speed: 0,
     smash: false,
   };
 
   let paddle = {
-    w: 0,
-    h: 0,
-    posX: 0,
+    posX: 300,
     sticky: false,
   };
 
-  console.log(document.getElementById("ball"));
-
   const movePaddle = (e) => {
-    if (e.layerX > 50 && e.layerX < 650) {
+    if (e.layerX >= 50 && e.layerX <= 650) {
       paddle.posX = e.layerX - 50;
     }
-    const el = document.getElementsByClassName("paddle")[0];
-    el.style.left = paddle.posX + "px";
 
     if (!game.active) {
-      const el2 = document.getElementsByClassName("ball")[0];
-      el2.style.left = paddle.posX + 40 + "px";
-      el2.style.bottom = "30px";
+      ball.posX = paddle.posX + 40;
     }
   };
 
@@ -82,7 +72,7 @@
   main {
     width: 700px;
     height: 400px;
-    border: 1px solid black;
+    border: 1px solid rgb(114, 114, 114);
     margin: 0 auto;
     position: relative;
   }
@@ -102,7 +92,7 @@
     position: absolute;
   }
 
-  .paddle {
+  #paddle {
     width: 100px;
     height: 30px;
     background-color: rgb(0, 150, 236);
@@ -118,6 +108,6 @@
     <p>Lives: {game.lives}</p>
     <p>Score: {game.score}</p>
   </div>
-  <div id="ball" />
-  <div class="paddle" style="left:{paddle.posX}px" />
+  <div id="ball" style="left:{ball.posX}px; bottom:{ball.posY}px" />
+  <div id="paddle" style="left:{paddle.posX}px" />
 </main>
