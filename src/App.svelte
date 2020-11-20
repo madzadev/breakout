@@ -37,17 +37,27 @@
     }
   };
 
-  const reset = () => {};
+  const reset = () => {
+    game.message = "";
+    ball.posX = 340;
+    ball.posY = 30;
+    paddle.posX = 300;
+    initGame();
+  };
 
   const gameOver = (bX, bY, pX, interval) => {
     if (bY < 30 && (bX < pX || bX > pX + 100)) {
       if (game.lives > 0) {
         --game.lives;
         game.message = "You lost 1 life ";
+        game.active = !game.active;
+        clearInterval(interval);
+        setTimeout(() => {
+          reset();
+        }, 1000);
       } else {
         game.message = "You lost the game!";
       }
-      clearInterval(interval);
     }
   };
 
@@ -131,4 +141,6 @@
   <div id="ball" style="left:{ball.posX}px; bottom:{ball.posY}px" />
   <div id="paddle" style="left:{paddle.posX}px" />
 </main>
+
+<button on:click={reset}>Reset</button>
 <h1>{!game.message ? '' : game.message}</h1>
