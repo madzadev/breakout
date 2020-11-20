@@ -4,6 +4,7 @@
     lives: 3,
     score: 0,
     active: false,
+    message: "",
   };
 
   let bricks = {
@@ -36,9 +37,17 @@
     }
   };
 
-  const gameOver = (bX, bY, pX) => {
+  const reset = () => {};
+
+  const gameOver = (bX, bY, pX, interval) => {
     if (bY < 30 && (bX < pX || bX > pX + 100)) {
-      console.log("Game over");
+      if (game.lives > 0) {
+        --game.lives;
+        game.message = "You lost 1 life ";
+      } else {
+        game.message = "You lost the game!";
+      }
+      clearInterval(interval);
     }
   };
 
@@ -48,8 +57,14 @@
     if (game.active) {
       let up = 5;
       let right = 1;
-      setInterval(() => {
-        if (ball.posY > 350 || ball.posY < 0) {
+      const init = setInterval(() => {
+        if (
+          ball.posY > 330 ||
+          ball.posY < 0 ||
+          (ball.posY < 30 &&
+            ball.posX > paddle.posX &&
+            ball.posX < paddle.posX + 100)
+        ) {
           up = -up;
         }
         if (ball.posX > 680 || ball.posX < 0) {
@@ -58,7 +73,7 @@
         ball.posY += up;
         ball.posX += right;
 
-        gameOver(ball.posX, ball.posY, paddle.posX);
+        gameOver(ball.posX, ball.posY, paddle.posX, init);
       }, 20);
     } else {
       console.log("game stopped");
@@ -116,3 +131,4 @@
   <div id="ball" style="left:{ball.posX}px; bottom:{ball.posY}px" />
   <div id="paddle" style="left:{paddle.posX}px" />
 </main>
+<h1>{!game.message ? '' : game.message}</h1>
