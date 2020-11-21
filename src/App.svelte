@@ -16,32 +16,43 @@
   };
 
   let ball = {
-    posX: 340,
-    posY: 30,
+    x: 340,
+    y: 30,
+    width: 20,
+    height: 20,
     speed: 0,
     smash: false,
   };
 
   let paddle = {
-    posX: 300,
+    x: 300,
     sticky: false,
   };
 
   const movePaddle = (e) => {
     if (e.layerX >= 50 && e.layerX <= 650) {
-      paddle.posX = e.layerX - 50;
+      paddle.x = e.layerX - 50;
     }
 
     if (!game.active) {
-      ball.posX = paddle.posX + 40;
+      ball.x = paddle.x + 40;
     }
   };
 
   const reset = () => {
     game.message = "";
-    ball.posX = 340;
-    ball.posY = 30;
-    paddle.posX = 300;
+    ball.x = 340;
+    ball.y = 30;
+    paddle.x = 300;
+  };
+
+  const isCollide = (a, b) => {
+    return !(
+      a.y + a.height < b.y ||
+      a.y > b.y + b.height ||
+      a.x + a.width < b.x ||
+      a.x > b.x + b.width
+    );
   };
 
   const gameOver = (bX, bY, pX, interval) => {
@@ -56,8 +67,8 @@
         setTimeout(() => {
           game.message = "Click to reset";
 
-          ball.posY = 30;
-          ball.posX = paddle.posX + 40;
+          ball.y = 30;
+          ball.x = paddle.x + 40;
         }, 1000);
       } else {
         game.message = "You lost the game!";
@@ -71,29 +82,56 @@
   };
 
   const initGame = () => {
-    console.log("game initiated");
+    const bricks = document.getElementsByClassName("brick");
+    const bricksArray = [];
+
+    // console.log(bricks);
+    // const obj = {
+    // x:el.offsetLeft,
+    // y:el.offsetTop,
+    // height:el.clientHeight,
+    // width: el.clientWidth,
+    // }
+    [...bricks].forEach((el, index) => {
+      bricksArray.push({
+        x: el.offsetLeft,
+        y: 580 - el.offsetTop,
+        height: el.clientHeight,
+        width: el.clientWidth,
+      });
+    });
+    console.log(bricksArray[0].offsetTop);
     game.active = !game.active;
     game.message = "";
     if (game.active) {
       let up = 8;
       let right = 1;
       const init = setInterval(() => {
+        bricksArray.forEach((el, index) => {
+          // console.log("computed");
+          if (isCollide(ball, el)) {
+            console.log(el);
+            // el.style.backgroundColor = "transparent";
+            // console.log("collided");
+            up = -up;
+          }
+        });
+
         if (
-          ball.posY > 530 ||
-          ball.posY < -50 ||
-          (ball.posY < 30 &&
-            ball.posX + 20 > paddle.posX &&
-            ball.posX < paddle.posX + 100)
+          ball.y > 530 ||
+          ball.y < -50 ||
+          (ball.y < 30 && ball.x + 20 > paddle.x && ball.x < paddle.x + 100)
         ) {
           up = -up;
         }
-        if (ball.posX > 680 || ball.posX < 0) {
+        if (ball.x > 680 || ball.x < 0) {
           right = -right;
         }
-        ball.posY += up;
-        ball.posX += right;
 
-        gameOver(ball.posX, ball.posY, paddle.posX, init);
+        ball.y += up;
+        ball.x += right;
+
+        gameOver(ball.x, ball.y, paddle.x, init);
       }, 20);
     } else {
       console.log("game stopped");
@@ -123,25 +161,20 @@
     background-color: rgb(44, 44, 44);
     color: white;
     padding: 10px;
-    /* flex-wrap: wrap; */
     gap: 32px;
     justify-content: flex-end;
     vertical-align: middle;
     align-items: center;
   }
   #brick-panel {
-    /* margin-top: 10px; */
     padding: 40px;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    /* grid-template-rows: repeat(3, 20px); */
     gap: 10px;
   }
   .brick {
-    /* width: 100px; */
     height: 20px;
-    background-color: rgb(0, 104, 17);
-    /* margin: 10px; */
+    background-color: rgb(57, 0, 104);
   }
 
   #ball {
@@ -174,8 +207,8 @@
     {/each}
   </div>
 
-  <div id="ball" style="left:{ball.posX}px; bottom:{ball.posY}px" />
-  <div id="paddle" style="left:{paddle.posX}px" />
+  <div id="ball" style="left:{ball.x}px; bottom:{ball.y}px" />
+  <div id="paddle" style="left:{paddle.x}px" />
 </main>
 
 <!-- <button on:click={reset}>Reset</button> -->
