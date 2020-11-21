@@ -8,6 +8,11 @@
   };
 
   let bricks = {
+    count: 0,
+    green: {
+      color: "green",
+      hits: 1,
+    },
     green: 1,
     blue: 2,
     red: 3,
@@ -82,17 +87,9 @@
   };
 
   const initGame = () => {
-    const bricks = document.getElementsByClassName("brick");
+    const all = document.getElementsByClassName("brick");
     const bricksArray = [];
-
-    // console.log(bricks);
-    // const obj = {
-    // x:el.offsetLeft,
-    // y:el.offsetTop,
-    // height:el.clientHeight,
-    // width: el.clientWidth,
-    // }
-    [...bricks].forEach((el, index) => {
+    [...all].forEach((el, index) => {
       bricksArray.push({
         x: el.offsetLeft,
         y: 580 - el.offsetTop,
@@ -100,6 +97,7 @@
         width: el.clientWidth,
         destroyed: false,
       });
+      ++bricks.count;
     });
     console.log(bricksArray[0].offsetTop);
     game.active = !game.active;
@@ -113,6 +111,12 @@
             const all = document.getElementsByClassName("brick");
             all[index].style.backgroundColor = "transparent";
             el.destroyed = true;
+            ++game.score;
+            --bricks.count;
+            console.log(bricks.count);
+            if (bricks.count === 0) {
+              game.message = "Congrats, you just won!";
+            }
             up = -up;
           }
         });
@@ -169,7 +173,7 @@
   #brick-panel {
     padding: 40px;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
   }
   .brick {
