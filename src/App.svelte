@@ -25,8 +25,8 @@
   };
 
   let ball = {
-    x: 340,
-    y: 30,
+    x: 490,
+    y: 32,
     width: 20,
     height: 20,
     speed: 0,
@@ -34,12 +34,12 @@
   };
 
   let paddle = {
-    x: 250,
+    x: 400,
     sticky: false,
   };
 
   const movePaddle = (e) => {
-    if (e.layerX >= 100 && e.layerX <= 600) {
+    if (e.layerX >= 100 && e.layerX <= 900) {
       paddle.x = e.layerX - 100;
     }
 
@@ -50,9 +50,9 @@
 
   const reset = () => {
     game.message = "";
-    ball.x = 340;
-    ball.y = 30;
-    paddle.x = 250;
+    ball.x = 490;
+    ball.y = 32;
+    paddle.x = 400;
   };
 
   const isCollide = (a, b) => {
@@ -76,7 +76,7 @@
         setTimeout(() => {
           game.message = "Click to reset";
 
-          ball.y = 30;
+          ball.y = 32;
           ball.x = paddle.x + 90;
         }, 1000);
       } else {
@@ -135,7 +135,7 @@
         ) {
           up = -up;
         }
-        if (ball.x > 680 || ball.x < 0) {
+        if (ball.x > 980 || ball.x < 0) {
           right = -right;
         }
 
@@ -157,10 +157,10 @@
     color: white;
   }
   main {
-    width: 700px;
+    width: 1000px;
     height: 600px;
     /* border: 3px solid rgb(255, 255, 255); */
-    margin: 0 auto;
+    margin: 100px auto 0 auto;
     position: relative;
     overflow: hidden;
   }
@@ -180,7 +180,7 @@
     font-weight: bold;
   }
   #brick-panel {
-    padding: 40px;
+    padding: 80px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 5px;
@@ -210,9 +210,15 @@
     /* box-sizing: border-box; */
     border-radius: 10px;
   }
+
+  #message {
+    color: white;
+    text-align: center;
+    margin-top: 20px;
+  }
 </style>
 
-<h1>=</h1>
+<!-- <h1>=</h1> -->
 <main on:mousemove={movePaddle} on:click={initGame}>
   <div class="info-panel">
     <p>Level: {game.level}</p>
@@ -229,4 +235,4 @@
   <div id="paddle" style="left:{paddle.x}px" />
 </main>
 
-<h1>{!game.message ? '' : game.message}</h1>
+<p id="message">{!game.message ? '' : game.message}</p>
