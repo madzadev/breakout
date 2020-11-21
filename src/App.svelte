@@ -98,6 +98,7 @@
         y: 580 - el.offsetTop,
         height: el.clientHeight,
         width: el.clientWidth,
+        destroyed: false,
       });
     });
     console.log(bricksArray[0].offsetTop);
@@ -108,11 +109,10 @@
       let right = 1;
       const init = setInterval(() => {
         bricksArray.forEach((el, index) => {
-          // console.log("computed");
-          if (isCollide(ball, el)) {
-            console.log(el);
-            // el.style.backgroundColor = "transparent";
-            // console.log("collided");
+          if (isCollide(ball, el) && !el.destroyed) {
+            const all = document.getElementsByClassName("brick");
+            all[index].style.backgroundColor = "transparent";
+            el.destroyed = true;
             up = -up;
           }
         });
