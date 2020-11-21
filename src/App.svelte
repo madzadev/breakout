@@ -34,17 +34,17 @@
   };
 
   let paddle = {
-    x: 300,
+    x: 250,
     sticky: false,
   };
 
   const movePaddle = (e) => {
-    if (e.layerX >= 50 && e.layerX <= 650) {
-      paddle.x = e.layerX - 50;
+    if (e.layerX >= 100 && e.layerX <= 600) {
+      paddle.x = e.layerX - 100;
     }
 
     if (!game.active) {
-      ball.x = paddle.x + 40;
+      ball.x = paddle.x + 90;
     }
   };
 
@@ -52,7 +52,7 @@
     game.message = "";
     ball.x = 340;
     ball.y = 30;
-    paddle.x = 300;
+    paddle.x = 250;
   };
 
   const isCollide = (a, b) => {
@@ -65,7 +65,7 @@
   };
 
   const gameOver = (bX, bY, pX, interval) => {
-    if (bY < -20 && (bX < pX || bX > pX + 100)) {
+    if (bY < -20 && (bX < pX || bX > pX + 200)) {
       if (game.lives > 0) {
         --game.lives;
         game.message = "You lost 1 life ";
@@ -77,7 +77,7 @@
           game.message = "Click to reset";
 
           ball.y = 30;
-          ball.x = paddle.x + 40;
+          ball.x = paddle.x + 90;
         }, 1000);
       } else {
         game.message = "You lost the game!";
@@ -131,7 +131,7 @@
         if (
           ball.y > 530 ||
           ball.y < -50 ||
-          (ball.y < 30 && ball.x + 20 > paddle.x && ball.x < paddle.x + 100)
+          (ball.y < 30 && ball.x + 20 > paddle.x && ball.x < paddle.x + 200)
         ) {
           up = -up;
         }
@@ -169,10 +169,11 @@
     display: flex;
     text-align: right;
     height: 30px;
-    background-color: rgb(44, 44, 44);
+    /* background-color: rgb(44, 44, 44); */
     color: white;
     padding: 10px;
     gap: 32px;
+    font-size: 20px;
     justify-content: flex-end;
     vertical-align: middle;
     align-items: center;
@@ -195,22 +196,23 @@
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background-color: rgb(255, 0, 0);
+    background-color: rgb(255, 96, 75);
     position: absolute;
   }
 
   #paddle {
-    width: 100px;
+    width: 200px;
     height: 20px;
-    background-color: rgb(0, 150, 236);
+    background-color: rgb(255, 255, 255);
     position: absolute;
     bottom: 10px;
     /* border: 3px solid white; */
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
+    border-radius: 10px;
   }
 </style>
 
-<h1>Breakout game</h1>
+<h1>=</h1>
 <main on:mousemove={movePaddle} on:click={initGame}>
   <div class="info-panel">
     <p>Level: {game.level}</p>
