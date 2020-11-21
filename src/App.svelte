@@ -1,4 +1,6 @@
 <script>
+  import { onMount } from "svelte";
+
   let game = {
     level: 1,
     lives: 3,
@@ -6,10 +8,6 @@
     active: false,
     message: "",
   };
-
-  // let levels = {
-  //   1:
-  // }
 
   let bricks = {
     count: 0,
@@ -90,9 +88,11 @@
     }
   };
 
-  const initGame = () => {
-    const all = document.getElementsByClassName("brick");
-    const bricksArray = [];
+  let all;
+  let bricksArray = [];
+  onMount(() => {
+    all = document.getElementsByClassName("brick");
+    bricksArray = [];
     [...all].forEach((el, index) => {
       bricksArray.push({
         x: el.offsetLeft,
@@ -101,9 +101,12 @@
         width: el.clientWidth,
         destroyed: false,
       });
-      ++bricks.count;
     });
-    console.log(bricksArray[0].offsetTop);
+
+    console.log(bricksArray);
+  });
+
+  const initGame = () => {
     game.active = !game.active;
     game.message = "";
     if (game.active) {
@@ -117,7 +120,7 @@
             el.destroyed = true;
             ++game.score;
             --bricks.count;
-            console.log(bricks.count);
+
             if (bricks.count === 0) {
               game.message = "Congrats, you just won!";
               ++game.level;
