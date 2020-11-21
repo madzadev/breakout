@@ -154,11 +154,6 @@
 </script>
 
 <style>
-  h1 {
-    text-align: center;
-    margin: 20px 0;
-    color: white;
-  }
   main {
     width: 1000px;
     height: 600px;
@@ -172,7 +167,6 @@
     display: flex;
     text-align: right;
     height: 30px;
-    /* background-color: rgb(44, 44, 44); */
     color: white;
     padding: 10px;
     gap: 32px;
@@ -192,9 +186,7 @@
     height: 20px;
     background-color: rgb(60, 238, 43);
     border-radius: 10px;
-    /* border: 3px solid white; */
   }
-
   #ball {
     width: 20px;
     height: 20px;
@@ -202,7 +194,6 @@
     background-color: rgb(255, 96, 75);
     position: absolute;
   }
-
   #paddle {
     width: 200px;
     height: 20px;
@@ -210,10 +201,8 @@
     position: absolute;
     bottom: 10px;
     /* border: 3px solid white; */
-    /* box-sizing: border-box; */
     border-radius: 10px;
   }
-
   #message {
     color: white;
     text-align: center;
@@ -221,7 +210,6 @@
   }
 </style>
 
-<!-- <h1>=</h1> -->
 <main on:mousemove={movePaddle} on:click={initGame}>
   <div class="info-panel">
     <p>Level: {game.level}</p>
