@@ -1,11 +1,15 @@
 <script>
   let game = {
-    level: 0,
+    level: 1,
     lives: 3,
     score: 0,
     active: false,
     message: "",
   };
+
+  // let levels = {
+  //   1:
+  // }
 
   let bricks = {
     count: 0,
@@ -116,6 +120,9 @@
             console.log(bricks.count);
             if (bricks.count === 0) {
               game.message = "Congrats, you just won!";
+              ++game.level;
+              clearInterval(init);
+              reset();
             }
             up = -up;
           }
@@ -147,12 +154,12 @@
   h1 {
     text-align: center;
     margin: 20px 0;
+    color: white;
   }
-
   main {
     width: 700px;
     height: 600px;
-    border: 1px solid rgb(114, 114, 114);
+    /* border: 3px solid rgb(255, 255, 255); */
     margin: 0 auto;
     position: relative;
     overflow: hidden;
@@ -169,16 +176,19 @@
     justify-content: flex-end;
     vertical-align: middle;
     align-items: center;
+    font-weight: bold;
   }
   #brick-panel {
     padding: 40px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    gap: 5px;
   }
   .brick {
     height: 20px;
-    background-color: rgb(57, 0, 104);
+    background-color: rgb(60, 238, 43);
+    border-radius: 10px;
+    /* border: 3px solid white; */
   }
 
   #ball {
@@ -195,6 +205,8 @@
     background-color: rgb(0, 150, 236);
     position: absolute;
     bottom: 10px;
+    /* border: 3px solid white; */
+    box-sizing: border-box;
   }
 </style>
 
@@ -215,5 +227,4 @@
   <div id="paddle" style="left:{paddle.x}px" />
 </main>
 
-<!-- <button on:click={reset}>Reset</button> -->
 <h1>{!game.message ? '' : game.message}</h1>
