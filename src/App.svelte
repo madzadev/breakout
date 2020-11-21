@@ -82,7 +82,7 @@
           ball.posY > 530 ||
           ball.posY < -50 ||
           (ball.posY < 30 &&
-            ball.posX > paddle.posX &&
+            ball.posX + 20 > paddle.posX &&
             ball.posX < paddle.posX + 100)
         ) {
           up = -up;
@@ -131,7 +131,7 @@
   }
   #brick-panel {
     /* margin-top: 10px; */
-    padding: 10px;
+    padding: 40px;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     /* grid-template-rows: repeat(3, 20px); */
