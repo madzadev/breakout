@@ -9,7 +9,9 @@
     message: "",
   };
 
-  let levels = [18, 6, 3, 4, 5];
+  let levels = [3, 4, 5];
+  // rows=level+2
+  // bricks = 6*
 
   let bricks = {
     green: 1,
@@ -226,7 +228,7 @@
   #brick-panel {
     padding: 80px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+
     gap: 5px;
   }
   .brick {
@@ -263,8 +265,10 @@
     <p>Lives: {game.lives}</p>
     <p>Score: {game.score}</p>
   </div>
-  <div id="brick-panel">
-    {#each Array(levels[game.level - 1]) as _, i}
+  <div
+    id="brick-panel"
+    style="grid-template-columns: repeat({game.level + 2}, 1fr);">
+    {#each Array((game.level + 2) * 6) as _, i}
       <div class="brick" />
     {/each}
   </div>
