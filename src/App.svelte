@@ -9,17 +9,6 @@
     message: "",
   };
 
-  let levels = [3, 4, 5];
-  // rows=level+2
-  // bricks = 6*
-
-  let bricks = {
-    green: 1,
-    blue: 2,
-    red: 3,
-    grey: 4,
-  };
-
   let ball = {
     x: 490,
     y: 32,
@@ -163,9 +152,11 @@
             game.active = !game.active;
             game.message = `Level ${game.level} completed!`;
             ++game.level;
-            clearInterval(init);
-            reset();
-            nextLevel();
+            setTimeout(() => {
+              clearInterval(init);
+              reset();
+              nextLevel();
+            }, 0);
           }
         });
 
@@ -249,7 +240,6 @@
     background-color: rgb(255, 255, 255);
     position: absolute;
     bottom: 10px;
-    /* border: 3px solid white; */
     border-radius: 10px;
   }
   #message {
