@@ -15,13 +15,10 @@
     y: 32,
     width: 20,
     height: 20,
-    speed: 0,
-    smash: false,
   };
 
   let paddle = {
     x: 400,
-    sticky: false,
   };
 
   const movePaddle = (e) => {
@@ -124,8 +121,6 @@
         destroyed: false,
       });
     });
-
-    // console.log(bricksArray);
   });
 
   const initGame = () => {
