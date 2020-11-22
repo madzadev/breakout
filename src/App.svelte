@@ -5,6 +5,7 @@
     level: 1,
     lives: 3,
     score: 0,
+    speed: 20,
     active: false,
     message: "",
   };
@@ -150,8 +151,11 @@
           }
           if (leftBricks === 0 && index + 1 === bricksArray.length) {
             game.active = !game.active;
-            game.message = `Level ${game.level} completed!`;
+            // game.message = `Level ${game.level} completed!`;
             ++game.level;
+            if (game.speed) {
+              --game.speed;
+            }
             setTimeout(() => {
               clearInterval(init);
               reset();
@@ -186,7 +190,7 @@
         ball.x += right;
 
         gameOver(ball.x, ball.y, paddle.x, init);
-      }, 20);
+      }, game.speed);
     } else {
       console.log("game stopped");
     }
