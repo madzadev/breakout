@@ -9,7 +9,7 @@
     message: "",
   };
 
-  let levels = [3, 6, 3, 4, 5];
+  let levels = [18, 6, 3, 4, 5];
 
   let bricks = {
     green: 1,
@@ -61,12 +61,16 @@
   const angle = (a, b, c) => {
     const l = b - a + 1;
     const perc = (c * 100) / l;
-    if (perc <= 20 || perc > 80) {
-      return 3;
-    } else if (perc <= 40 || perc > 60) {
+    if (perc <= 20) {
+      return -3;
+    } else if (perc <= 40) {
+      return -2;
+    } else if (perc <= 60) {
+      return 1;
+    } else if (perc <= 80) {
       return 2;
     } else {
-      return 1;
+      return 3;
     }
   };
 
@@ -173,7 +177,7 @@
           let res = angle(paddle.x, paddle.x + 200, ball.x + 10 - paddle.x);
           if (res === 1) {
             up = -up;
-          } else if (res === 2 || res === 3) {
+          } else {
             up = -up;
             right = 1 * res;
           }
@@ -199,7 +203,7 @@
   main {
     width: 1000px;
     height: 600px;
-    border: 3px solid rgb(255, 255, 255);
+    /* border: 3px solid rgb(255, 255, 255); */
     margin: 100px auto 0 auto;
     position: relative;
     overflow: hidden;
