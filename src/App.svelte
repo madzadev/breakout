@@ -177,6 +177,7 @@
           let res = angle(paddle.x, paddle.x + 200, ball.x + 10 - paddle.x);
           if (res === 1) {
             up = -up;
+            right = right / Math.abs(right);
           } else {
             up = -up;
             right = 1 * res;
