@@ -58,6 +58,18 @@
     );
   };
 
+  const angle = (a, b, c) => {
+    const l = b - a + 1;
+    const perc = (c * 100) / l;
+    if (perc <= 20 || perc > 80) {
+      return 3;
+    } else if (perc <= 40 || perc > 60) {
+      return 2;
+    } else {
+      return 1;
+    }
+  };
+
   const gameOver = (bX, bY, pX, interval) => {
     if (bY < -20 && (bX < pX || bX > pX + 200)) {
       if (game.lives > 0) {
@@ -142,22 +154,32 @@
             ++leftBricks;
           }
           if (leftBricks === 0 && index + 1 === bricksArray.length) {
+            game.active = !game.active;
             game.message = `Level ${game.level} completed!`;
             ++game.level;
-            bricksArray = [];
             clearInterval(init);
             reset();
             nextLevel();
           }
         });
 
-        if (
-          ball.y > 530 ||
-          ball.y < -50 ||
-          (ball.y < 30 && ball.x + 20 > paddle.x && ball.x < paddle.x + 200)
-        ) {
+        // bounce against the ceilings and floor
+        if (ball.y > 530 || ball.y < -50) {
           up = -up;
         }
+
+        // bounce against paddle
+        if (ball.y < 30 && ball.x + 20 > paddle.x && ball.x < paddle.x + 200) {
+          let res = angle(paddle.x, paddle.x + 200, ball.x + 10 - paddle.x);
+          if (res === 1) {
+            up = -up;
+          } else if (res === 2 || res === 3) {
+            up = -up;
+            right = 1 * res;
+          }
+        }
+
+        // bounce against side walls
         if (ball.x > 980 || ball.x < 0) {
           right = -right;
         }
