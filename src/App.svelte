@@ -9,7 +9,7 @@
     message: "",
   };
 
-  let levels = [1, 2, 3, 4, 5];
+  let levels = [3, 6, 3, 4, 5];
 
   let bricks = {
     green: 1,
@@ -84,10 +84,29 @@
     }
   };
 
+  let nextLevel = () => {
+    bricksArray = [];
+    console.log(bricksArray);
+    let all = document.getElementsByClassName("brick");
+    setTimeout(() => {
+      [...all].forEach((el, index) => {
+        all[index].style.backgroundColor = "rgb(60, 238, 43)";
+        bricksArray.push({
+          x: el.offsetLeft,
+          y: 580 - el.offsetTop,
+          height: el.clientHeight,
+          width: el.clientWidth,
+          destroyed: false,
+        });
+      });
+      console.log(bricksArray);
+    }, 0);
+  };
+
   let bricksArray = [];
   onMount(() => {
+    console.log("mounted");
     let all = document.getElementsByClassName("brick");
-    bricksArray = [];
     [...all].forEach((el, index) => {
       bricksArray.push({
         x: el.offsetLeft,
@@ -98,7 +117,7 @@
       });
     });
 
-    console.log(bricksArray);
+    // console.log(bricksArray);
   });
 
   const initGame = () => {
@@ -123,10 +142,12 @@
             ++leftBricks;
           }
           if (leftBricks === 0 && index + 1 === bricksArray.length) {
-            console.log("GAME OVER");
+            game.message = `Level ${game.level} completed!`;
             ++game.level;
+            bricksArray = [];
             clearInterval(init);
             reset();
+            nextLevel();
           }
         });
 
