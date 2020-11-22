@@ -9,17 +9,13 @@
     message: "",
   };
 
+  let levels = [1, 2, 3, 4, 5];
+
   let bricks = {
-    count: 0,
-    green: {
-      color: "green",
-      hits: 1,
-    },
     green: 1,
     blue: 2,
     red: 3,
     grey: 4,
-    hit: false,
   };
 
   let ball = {
@@ -88,10 +84,9 @@
     }
   };
 
-  let all;
   let bricksArray = [];
   onMount(() => {
-    all = document.getElementsByClassName("brick");
+    let all = document.getElementsByClassName("brick");
     bricksArray = [];
     [...all].forEach((el, index) => {
       bricksArray.push({
@@ -112,22 +107,26 @@
     if (game.active) {
       let up = 8;
       let right = 1;
+
       const init = setInterval(() => {
+        let leftBricks = 0;
         bricksArray.forEach((el, index) => {
           if (isCollide(ball, el) && !el.destroyed) {
             const all = document.getElementsByClassName("brick");
             all[index].style.backgroundColor = "transparent";
             el.destroyed = true;
             ++game.score;
-            --bricks.count;
-
-            if (bricks.count === 0) {
-              game.message = "Congrats, you just won!";
-              ++game.level;
-              clearInterval(init);
-              reset();
-            }
             up = -up;
+          }
+          // check if any bricks left (add inside above to run just on collision)
+          if (!el.destroyed) {
+            ++leftBricks;
+          }
+          if (leftBricks === 0 && index + 1 === bricksArray.length) {
+            console.log("GAME OVER");
+            ++game.level;
+            clearInterval(init);
+            reset();
           }
         });
 
@@ -157,7 +156,7 @@
   main {
     width: 1000px;
     height: 600px;
-    /* border: 3px solid rgb(255, 255, 255); */
+    border: 3px solid rgb(255, 255, 255);
     margin: 100px auto 0 auto;
     position: relative;
     overflow: hidden;
@@ -217,7 +216,7 @@
     <p>Score: {game.score}</p>
   </div>
   <div id="brick-panel">
-    {#each Array(18) as _, i}
+    {#each Array(levels[game.level - 1]) as _, i}
       <div class="brick" />
     {/each}
   </div>
