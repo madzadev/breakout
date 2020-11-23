@@ -7,7 +7,6 @@
     score: 0,
     speed: 20,
     active: false,
-    message: "",
   };
 
   let ball = {
@@ -32,7 +31,6 @@
   };
 
   const reset = () => {
-    game.message = "";
     ball.x = 490;
     ball.y = 32;
     paddle.x = 400;
@@ -47,39 +45,25 @@
     );
   };
 
-  const angle = (a, b, c) => {
+  const bounceAngle = (a, b, c) => {
     const l = b - a + 1;
-    const perc = (c * 100) / l;
-    if (perc <= 20) {
-      return -3;
-    } else if (perc <= 40) {
-      return -2;
-    } else if (perc <= 60) {
-      return 1;
-    } else if (perc <= 80) {
-      return 2;
-    } else {
-      return 3;
-    }
+    const p = (c * 100) / l;
+    return p <= 20 ? -3 : p <= 40 ? -2 : p <= 60 ? 1 : p <= 80 ? 2 : 3;
   };
 
   const gameOver = (bX, bY, pX, interval) => {
     if (bY < -20 && (bX < pX || bX > pX + 200)) {
       if (game.lives > 0) {
+        // Lost 1 life
         --game.lives;
-        game.message = "You lost 1 life ";
         game.active = !game.active;
-
         clearInterval(interval);
-
         setTimeout(() => {
-          game.message = "Click to reset";
-
           ball.y = 32;
           ball.x = paddle.x + 90;
         }, 1000);
       } else {
-        game.message = "You lost the game!";
+        // Lost the game
         game.active = !game.active;
         clearInterval(interval);
         setTimeout(() => {
@@ -91,7 +75,6 @@
 
   let nextLevel = () => {
     bricksArray = [];
-    console.log(bricksArray);
     let all = document.getElementsByClassName("brick");
     setTimeout(() => {
       [...all].forEach((el, index) => {
@@ -104,15 +87,13 @@
           destroyed: false,
         });
       });
-      console.log(bricksArray);
     }, 0);
   };
 
   let bricksArray = [];
   onMount(() => {
-    console.log("mounted");
     let all = document.getElementsByClassName("brick");
-    [...all].forEach((el, index) => {
+    [...all].forEach((el) => {
       bricksArray.push({
         x: el.offsetLeft,
         y: 580 - el.offsetTop,
@@ -125,7 +106,6 @@
 
   const initGame = () => {
     game.active = !game.active;
-    game.message = "";
     if (game.active) {
       let up = 8;
       let right = 1;
@@ -146,7 +126,6 @@
           }
           if (leftBricks === 0 && index + 1 === bricksArray.length) {
             game.active = !game.active;
-            // game.message = `Level ${game.level} completed!`;
             ++game.level;
             if (game.speed) {
               --game.speed;
@@ -166,7 +145,11 @@
 
         // bounce against paddle
         if (ball.y < 30 && ball.x + 20 > paddle.x && ball.x < paddle.x + 200) {
-          let res = angle(paddle.x, paddle.x + 200, ball.x + 10 - paddle.x);
+          let res = bounceAngle(
+            paddle.x,
+            paddle.x + 200,
+            ball.x + 10 - paddle.x
+          );
           if (res === 1) {
             up = -up;
             right = right / Math.abs(right);
@@ -186,8 +169,6 @@
 
         gameOver(ball.x, ball.y, paddle.x, init);
       }, game.speed);
-    } else {
-      console.log("game stopped");
     }
   };
 </script>
@@ -218,7 +199,6 @@
   #brick-panel {
     padding: 80px;
     display: grid;
-
     gap: 5px;
   }
   .brick {
@@ -241,11 +221,6 @@
     bottom: 10px;
     border-radius: 10px;
   }
-  #message {
-    color: white;
-    text-align: center;
-    margin-top: 20px;
-  }
 </style>
 
 <main on:mousemove={movePaddle} on:click={initGame}>
@@ -265,5 +240,3 @@
   <div id="ball" style="left:{ball.x}px; bottom:{ball.y}px" />
   <div id="paddle" style="left:{paddle.x}px" />
 </main>
-
-<p id="message">{!game.message ? '' : game.message}</p>
