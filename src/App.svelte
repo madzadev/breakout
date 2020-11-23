@@ -31,9 +31,9 @@
   };
 
   const reset = () => {
-    ball.x = 490;
+    game.active = !game.active;
+    ball.x = paddle.x + 90;
     ball.y = 32;
-    paddle.x = 400;
   };
 
   const isCollide = (a, b) => {
@@ -56,15 +56,12 @@
       if (game.lives > 0) {
         // Lost 1 life
         --game.lives;
-        game.active = !game.active;
         clearInterval(interval);
         setTimeout(() => {
-          ball.y = 32;
-          ball.x = paddle.x + 90;
+          reset();
         }, 1000);
       } else {
         // Lost the game
-        game.active = !game.active;
         clearInterval(interval);
         setTimeout(() => {
           reset();
@@ -125,7 +122,6 @@
             ++leftBricks;
           }
           if (leftBricks === 0 && index + 1 === bricksArray.length) {
-            game.active = !game.active;
             ++game.level;
             if (game.speed) {
               --game.speed;
