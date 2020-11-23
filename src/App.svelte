@@ -7,7 +7,7 @@
     score: 0,
     speed: 20,
     active: false,
-    gameover: false,
+    gameOver: false,
   };
 
   let ball = {
@@ -64,15 +64,21 @@
       } else {
         // Lost the game
         clearInterval(interval);
-        game.level = 1;
-        game.lives = 3;
-        game.over = true;
-        setTimeout(() => {
-          reset();
-          nextLevel();
-        }, 0);
+        game.gameOver = true;
       }
     }
+  };
+
+  const playAgain = () => {
+    game.gameOver = false;
+    game.level = 1;
+    game.lives = 3;
+    game.score = 0;
+    game.speed = 20;
+    setTimeout(() => {
+      reset();
+      nextLevel();
+    }, 0);
   };
 
   let nextLevel = () => {
@@ -222,22 +228,34 @@
     bottom: 10px;
     border-radius: 10px;
   }
+
+  h1 {
+    color: white;
+    font-size: 60px;
+    text-align: center;
+  }
 </style>
 
-<main on:mousemove={movePaddle} on:click={initGame}>
-  <div class="info-panel">
-    <p>Level: {game.level}</p>
-    <p>Lives: {game.lives}</p>
-    <p>Score: {game.score}</p>
-  </div>
-  <div
-    id="brick-panel"
-    style="grid-template-columns: repeat({game.level + 2}, 1fr);">
-    {#each Array((game.level + 2) * 6) as _, i}
-      <div class="brick" />
-    {/each}
-  </div>
+{#if !game.gameOver}
+  <main on:mousemove={movePaddle} on:click={initGame}>
+    <div class="info-panel">
+      <p>Level: {game.level}</p>
+      <p>Lives: {game.lives}</p>
+      <p>Score: {game.score}</p>
+    </div>
+    <div
+      id="brick-panel"
+      style="grid-template-columns: repeat({game.level + 2}, 1fr);">
+      {#each Array((game.level + 2) * 6) as _, i}
+        <div class="brick" />
+      {/each}
+    </div>
 
-  <div id="ball" style="left:{ball.x}px; bottom:{ball.y}px" />
-  <div id="paddle" style="left:{paddle.x}px" />
-</main>
+    <div id="ball" style="left:{ball.x}px; bottom:{ball.y}px" />
+    <div id="paddle" style="left:{paddle.x}px" />
+  </main>
+{:else}
+  <h1>Game Over</h1>
+  <h1>Level: {game.level}, Points: {game.score}</h1>
+  <button on:click={playAgain}>Play again!</button>
+{/if}
