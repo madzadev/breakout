@@ -7,6 +7,7 @@
     score: 0,
     speed: 20,
     active: false,
+    gameover: false,
   };
 
   let ball = {
@@ -59,13 +60,17 @@
         clearInterval(interval);
         setTimeout(() => {
           reset();
-        }, 1000);
+        }, 0);
       } else {
         // Lost the game
         clearInterval(interval);
+        game.level = 1;
+        game.lives = 3;
+        game.over = true;
         setTimeout(() => {
           reset();
-        }, 1000);
+          nextLevel();
+        }, 0);
       }
     }
   };
