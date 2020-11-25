@@ -52,6 +52,19 @@
     return p <= 20 ? -3 : p <= 40 ? -2 : p <= 60 ? 1 : p <= 80 ? 2 : 3;
   };
 
+  const flashBricks = () => {
+    console.log(bricksArray);
+    let all = document.getElementsByClassName("brick");
+    bricksArray.forEach((el, index) => {
+      if (!el.destroyed) {
+        all[index].style.backgroundColor = "red";
+        setTimeout(() => {
+          all[index].style.backgroundColor = "rgb(60, 238, 43)";
+        }, 500);
+      }
+    });
+  };
+
   const gameOver = (bX, bY, pX, interval) => {
     if (bY < -20 && (bX < pX || bX > pX + 200)) {
       if (game.lives > 0) {
@@ -59,6 +72,7 @@
         --game.lives;
         clearInterval(interval);
         setTimeout(() => {
+          flashBricks();
           reset();
         }, 0);
       } else {
