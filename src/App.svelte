@@ -57,10 +57,19 @@
     let all = document.getElementsByClassName("brick");
     bricksArray.forEach((el, index) => {
       if (!el.destroyed) {
-        all[index].style.backgroundColor = "red";
-        setTimeout(() => {
-          all[index].style.backgroundColor = "rgb(60, 238, 43)";
-        }, 300);
+        let times = 0;
+        all[index].style.backgroundColor = "tomato";
+        let interval = setInterval(() => {
+          if (times % 2 === 0) {
+            all[index].style.backgroundColor = "rgb(60, 238, 43)";
+          } else {
+            all[index].style.backgroundColor = "tomato";
+          }
+          ++times;
+          if (times === 5) {
+            clearInterval(interval);
+          }
+        }, 100);
       }
     });
   };
