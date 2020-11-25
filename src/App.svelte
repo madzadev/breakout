@@ -60,7 +60,7 @@
         all[index].style.backgroundColor = "red";
         setTimeout(() => {
           all[index].style.backgroundColor = "rgb(60, 238, 43)";
-        }, 500);
+        }, 300);
       }
     });
   };
