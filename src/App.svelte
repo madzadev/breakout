@@ -278,7 +278,9 @@
     <div id="paddle" style="left:{paddle.x}px" />
   </main>
 {:else}
-  <h1>Game Over</h1>
-  <h1>Level: {game.level}, Points: {game.score}</h1>
-  <button on:click={playAgain}>Play again!</button>
+  <main>
+    <h1>Game Over</h1>
+    <h1>Level: {game.level}, Points: {game.score}</h1>
+    <button on:click={playAgain}>Play again!</button>
+  </main>
 {/if}
