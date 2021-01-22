@@ -1,8 +1,8 @@
 # Breakout
 
-Atari's classic Breakout game with levels, speed modes, lives and score count.
+Atari's classic Breakout game with levels, speed modes, lives, score count and more.
 
-![Alt img](https://i.imgur.com/vhtRGoQ.png)
+![Alt img](https://i.imgur.com/c4uaKqL.gif)
 
 ## Installation
 
