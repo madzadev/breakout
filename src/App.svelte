@@ -77,7 +77,6 @@
   const gameOver = (bX, bY, pX, interval) => {
     if (bY < -20 && (bX < pX || bX > pX + 200)) {
       if (game.lives > 0) {
-        // Lost 1 life
         --game.lives;
         clearInterval(interval);
         setTimeout(() => {
@@ -85,7 +84,6 @@
           reset();
         }, 0);
       } else {
-        // Lost the game
         clearInterval(interval);
         game.gameOver = true;
       }
@@ -151,7 +149,6 @@
             ++game.score;
             up = -up;
           }
-          // check if any bricks left (add inside above to run just on collision)
           if (!el.destroyed) {
             ++leftBricks;
           }
@@ -207,7 +204,6 @@
   main {
     width: 1000px;
     height: 600px;
-    /* border: 3px solid rgb(255, 255, 255); */
     margin: 100px auto 0 auto;
     position: relative;
     overflow: hidden;
